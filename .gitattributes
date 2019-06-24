@@ -1,3 +1,3 @@
-docs/main.bundle.js       binary
-docs/main.bundle.js.map   binary
-docs/inline.bundle.js.map binary
+docs/*.js binary
+docs/*.css binary
+docs/*.js.map binary

@@ -4,7 +4,7 @@ import {
   ViewChild,
   ElementRef,
 } from '@angular/core';
-import { MaphilightComponent } from '../maphilight/maphilight.component';
+import { MaphilightComponent } from 'ng-maphilight';
 
 @Component({
   selector: 'app-example2',
@@ -12,7 +12,7 @@ import { MaphilightComponent } from '../maphilight/maphilight.component';
   styleUrls: ['./example2.component.css']
 })
 export class Example2Component {
-  @ViewChild(MaphilightComponent) maphilightComponent: MaphilightComponent;
+  @ViewChild(MaphilightComponent, {static: false}) maphilightComponent: MaphilightComponent;
   hidden = false
   config = {
     fade: true,
@@ -48,7 +48,7 @@ export class Example2Component {
     this.maphilightComponent.events.imgLoaded.subscribe(() => {
       console.log("img.height=", this.maphilightComponent.img.height,
                   "$(this.img).height()=", window.jQuery(this.maphilightComponent.img).height())
-      this.hidden = true
+      //this.hidden = true
     })
     this.maphilightComponent.events.updateMaphilight.subscribe(() => {
       console.log('updateMaphilight')

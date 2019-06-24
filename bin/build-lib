@@ -1,27 +1,19 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 which jq > /dev/null
 
-package_name=angular-maphilight
-$(npm bin)/ngmakelib src/app/maphilight/maphilight.module.ts $package_name
-rm -rf build-lib
-mkdir build-lib
-mv $package_name.tar.gz build-lib/
-cd build-lib
-tar -xzf $package_name.tar.gz
-rm $package_name.tar.gz
-cp ../README.md ./
+pushd projects/ng-maphilight >/dev/null
+echo -n "Current version: "
+npm version | grep ng-maphilight
+echo -n "To increment version: "
+npm version --help | head -n1
+bash
+popd >/dev/null
 
-# Replace generated package.json with most of the original package.json (but override main and
-# types). Why doesn't ngmakelib preserve it?
-# Seems like we should keep .dependencies but currently it includes some that are dependencies of
-# the docs/demo app only and not of the MaphilightModule that we're packaging. What is the best
-# solution?
-jq --slurp 'del(.[0].scripts, .[0].dependencies, .[0].devDependencies)[0]
-          * del(.[1].version)[1]
-          * {name: "ng-maphilight"}' \
-            ../package.json package.json > package.new.json
-mv package.new.json package.json
-cat package.json
+echo
+ng build ng-maphilight
 
-# Now can npm publish
+pushd dist/ng-maphilight >/dev/null
+echo 'To publish: npm publish'
+bash
+popd >/dev/null
